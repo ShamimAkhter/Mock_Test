@@ -1,0 +1,91 @@
+<table role="grid">
+  <thead>
+    <tr>
+      <td>Id</td>
+      <td>Name</td>
+      <td>Description</td>
+      <td>Questions</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let questionSet of (questionSetListObs | async)">
+      <td>{{ questionSet.questionSetId }}</td>
+      <td>{{ questionSet.name }}</td>
+      <td>{{ questionSet.description }}</td>
+      <td>
+        <button style="width: max-content">Open</button>
+        <!-- open modal for these -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+<h3>Create a new Question Set here !!</h3>
+<hr>
+<!-- <div style="background-color: cadetblue">
+  <h1>Todo</h1>
+  <p>
+    Page to watch all question sets. on clicking any set name will take us to
+    that set.
+  </p>
+  <p>Create question set page will bring us to this page</p>
+  <p>
+    Name of this module should be Questions. And name of submission component
+    should be question submission
+  </p>
+</div> -->
+<form [formGroup]="questionSetForm" (ngSubmit)="onSubmit()">
+  <div>
+    <div>
+      <input type="text" id="name" formControlName="name" placeholder="Question Set Name" />
+    </div>
+    <div>
+      <textarea name="description" id="description" formControlName="description"
+        placeholder="Description about this question set!"></textarea>
+    </div>
+  </div>
+  <hr>
+
+  <div>
+    <h3>Questions below:</h3>
+
+    <div formArrayName="questions">
+      <article *ngFor="let question of questions.controls; let i = index">
+        <details [formGroupName]="i">
+          <summary>
+            <div>
+              {{ i + 1 }}: {{ question.value.questionText | excerpt }}
+            </div>
+          </summary>
+          <div>
+            <div>
+              <input type="hidden" id="questionNumber" name="questionNumber" formControlName="questionNumber"
+                [value]="i + 1" />
+              <label for="questionText"></label>
+              <textarea name="questionText" id="questionText" placeholder="Enter question text here!"
+                formControlName="questionText"></textarea>
+            </div>
+            <div class="grid">
+              <input type="number" name="maxMarks" id="maxMarks" value="5" placeholder="Enter maximum marks"
+                formControlName="maxMarks" />
+              <button (click)="removeQuestion(i)">Remove</button>
+            </div>
+          </div>
+        </details>
+      </article>
+    </div>
+  </div>
+
+  <div class="grid">
+    <button type="button" class="secondary" (click)="addQuestion()">
+      Add Question
+    </button>
+    <button class="contrast" (click)="reset()">Reset</button>
+    <button type="submit" [disabled]="!questionSetForm.valid">Submit</button>
+  </div>
+</form>
+<!-- <article>
+      <pre>{{ questionSetForm.getRawValue() | json }}</pre>
+      <pre>{{ arr | json }}</pre>
+    </article> -->

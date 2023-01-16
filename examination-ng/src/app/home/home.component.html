@@ -1,0 +1,81 @@
+<div>
+  <div *ngIf="!(store.state$ | async).candidate">
+    You are not logged in. Login to register and appear for exams.
+    <a routerLink="/login">Login</a>
+  </div>
+  <div *ngIf="(store.state$ | async).candidate">
+    <div>You are logged in as <a routerLink="/candidate">{{ (store.state$ | async).candidate?.name }}</a></div>
+  </div>
+</div>
+
+<hr />
+
+<h5>List of available exams</h5>
+
+<!-- <pre>{{ examObs | async | json }}</pre> -->
+
+<table role="grid">
+  <thead>
+    <tr>
+      <th>Exam Id</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Valid From</th>
+      <th>Valid Till</th>
+      <th>Duration (mins)</th>
+      <!-- <th>Duration (mins)</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let exam of examObs | async">
+      <!-- <td>{{ exam.examId }}</td> -->
+      <th>{{ exam.examId }}</th>
+      <td>
+        <button style="width: max-content"
+        class="outline" [disabled]="!(store.state$ | async).candidate" (click)="openModal(exam)">
+          {{ exam.name }}
+        </button>
+      </td>
+      <td>{{ exam.description }}</td>
+      <td>{{ exam.validFrom | date }}</td>
+      <td>{{ exam.validTill | date }}</td>
+      <td>{{ exam.duration }} mins</td>
+      <!-- <td>{{ (Date.parse(exam.validTill)) }} mins</td> -->
+    </tr>
+  </tbody>
+</table>
+
+<dialog [attr.open]="modal.isOpen">
+  <article>
+    <div>Exam registration confirmation:</div>
+    <ul>
+      <li>Exam Id: {{ modal.body?.examId }}</li>
+      <li>Name: {{ modal.body?.name }}</li>
+      <li>Description: {{ modal.body?.description }}</li>
+      <li>Valid from: {{ modal.body?.validFrom | date }}</li>
+      <li>Valid till: {{ modal.body?.validTill | date }}</li>
+      <li>Duration: {{ modal.body?.duration }} mins</li>
+    </ul>
+    <!-- <pre>{{ alreadyRegistered}}</pre> -->
+    <div *ngIf="!alreadyRegistered">
+      <div>You are not registered for this exam. Do you want to register?</div>
+      <hr />
+      <div class="grid">
+        <button (click)="closeModal('cancel')">cancel</button>
+        <button (click)="closeModal('forward')">Yes</button>
+      </div>
+    </div>
+    <div *ngIf="alreadyRegistered">
+      <div>
+        You are already registered for this exam. Do you want to appear now?
+      </div>
+      <hr />
+      <div class="grid">
+        <button (click)="closeModal('cancel')">cancel</button>
+        <button (click)="closeModal('exam')">Yes</button>
+      </div>
+    </div>
+  </article>
+</dialog>
+
+<pre></pre>

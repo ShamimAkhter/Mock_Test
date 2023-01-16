@@ -1,0 +1,66 @@
+<p>login works!</p>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Enter your email</label>
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      [attr.aria-invalid]="
+        form.get('email').touched
+          ? form.get('email').valid
+            ? false
+            : true
+          : ''
+      "
+    />
+    <small *ngIf="!form.get('email').valid && form.get('email').touched">
+      Email is required
+    </small>
+  </div>
+
+  <div>
+    <label for="password">Enter your password</label>
+    <input
+      type="password"
+      id="password"
+      formControlName="password"
+      [attr.aria-invalid]="
+        form.get('password').touched
+          ? form.get('password').valid
+            ? false
+            : true
+          : ''
+      "
+    />
+    <small *ngIf="!form.get('password').valid && form.get('password').touched">
+      Password is required
+    </small>
+  </div>
+
+  <div>
+    <button [attr.aria-busy]="ariaBusy" type="submit" [disabled]="!form.valid">
+      Submit
+    </button>
+    <button (click)="setValue()">Set value</button>
+  </div>
+</form>
+
+<div>
+  New candidate? <a href="register">Go to register</a>.
+</div>
+
+<!-- <dialog>
+  <article>
+    <div>
+      <h3 *ngIf="modal.header">{{ modal.header }}</h3>
+      <pre *ngIf="modal.body">{{ modal.body | json }}</pre>
+    </div>
+    <div class="grid">
+      <a href="#cancel" role="button" class="secondary">Cancel</a>
+      <a href="#confirm" role="button">Confirm</a>
+      <button (click)="modalOkButton()">Okay</button>
+    </div>
+  </article>
+</dialog> -->

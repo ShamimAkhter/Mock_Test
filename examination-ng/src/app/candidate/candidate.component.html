@@ -1,0 +1,13 @@
+<div *ngIf="store.state$ | async as state">
+  <h4>Candidate Profile</h4>
+  <ul>
+    <li>Id: {{ state.candidate?.candidateId }}</li>
+    <li>Name: {{ state.candidate?.name }}</li>
+    <li>Email: {{ state.candidate?.email }}</li>
+    <li>Date of birth: {{ state.candidate?.dateOfBirth }}</li>
+  </ul>
+</div>
+<div class="grid">
+  <button>Update Profile</button>
+  <button (click)="logout()">Logout</button>
+</div>

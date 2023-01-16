@@ -1,0 +1,183 @@
+
+POST  https://localhost:44334/api/QuestionSet
+Content-Type: application/json
+
+{
+  "name": "C# Basic Questions",
+  "description": "Basic level C# questions",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "questionText": "How is C# different from C?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 2,
+      "questionText": "What is Common Language Runtime (CLR)?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 3,
+      "questionText": "What is garbage collection in C#?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 4,
+      "questionText": "What are the types of classes in C#?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 5,
+      "questionText": "What is a managed and unmanaged code?",
+      "maxMarks": 2
+    }
+  ]
+}
+
+###
+
+POST  https://localhost:44334/api/QuestionSet
+Content-Type: application/json
+
+{
+  "name": "Chemistry Advance",
+  "description": "Here are the most asked basic to advanced level Chemistry interview questions and answers for freshers as well as experienced candidates to get their dream job.",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "questionText": "How will you calculate how many moles of glucose present in 320 mL of 5.0 M of glucose solution?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 2,
+      "questionText": "Explain what is the difference between fractionation and distillation?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 3,
+      "questionText": "Mention the formula to calculate pH of a solution?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 4,
+      "questionText": "What is the difference between Molarity and Normality?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 5,
+      "questionText": "Which metal is used to extract copper from the solution of copper sulfate?",
+      "maxMarks": 2
+    }
+  ]
+}
+
+###
+
+POST  https://localhost:44334/api/QuestionSet
+Content-Type: application/json
+
+{
+  "name": "Interview Questions Set 102",
+  "description": "Most Common Interview Questions",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "questionText": "How did you hear about this position?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 2,
+      "questionText": "Why do you want to work here?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 3,
+      "questionText": "Why did you decide to apply for this position?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 4,
+      "questionText": "What are your strengths and weaknesses?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 5,
+      "questionText": "What do you know about this company/organization?",
+      "maxMarks": 2
+    }
+  ]
+}
+
+###
+
+POST  https://localhost:44334/api/QuestionSet
+Content-Type: application/json
+
+{
+  "name": "Question Set ABSE-45687",
+  "description": "Some description here.",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "questionText": "How is C# different from C?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 2,
+      "questionText": "What is Common Language Runtime (CLR)?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 3,
+      "questionText": "What is garbage collection in C#?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 4,
+      "questionText": "What are the types of classes in C#?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 5,
+      "questionText": "What is a managed and unmanaged code?",
+      "maxMarks": 2
+    }
+  ]
+}
+
+###
+
+POST  https://localhost:44334/api/QuestionSet
+Content-Type: application/json
+
+{
+  "name": "Question Set QA-4521",
+  "description": "To much description here.",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "questionText": "How is C# different from C?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 2,
+      "questionText": "What is Common Language Runtime (CLR)?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 3,
+      "questionText": "What is garbage collection in C#?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 4,
+      "questionText": "What are the types of classes in C#?",
+      "maxMarks": 2
+    },
+    {
+      "questionNumber": 5,
+      "questionText": "What is a managed and unmanaged code?",
+      "maxMarks": 2
+    }
+  ]
+}

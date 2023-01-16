@@ -1,0 +1,56 @@
+<h3>Set Dummy Values</h3>
+<div class="grid">
+  <div>
+    <button (click)="setCandidate(1)">Set candidate 1</button>
+    <button (click)="setCandidate(22)">Set candidate 22</button>
+    <button (click)="setCandidate(0)">Set candidate to null</button>
+  </div>
+  <div>
+    <button (click)="setExam(1)">Set exam</button>
+    <button (click)="setExam(0)">Set exam to null</button>
+  </div>
+  <div>
+    <button (click)="setQuestionSet(1)">Set questions</button>
+    <button (click)="setQuestionSet(0)">Set questions to null</button>
+  </div>
+  <div>
+    <button (click)="setAnswer(1)">Set answer</button>
+    <button (click)="setAnswer(0)">Set answer to null</button>
+  </div>
+</div>
+
+<h3>State</h3>
+<pre>{{ store.state$ | async | json }}</pre>
+
+<hr>
+<hr>
+<hr>
+<pre>{{ AnswerObs  | async | json }}</pre>
+<hr>
+<hr>
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>ExamId</th>
+      <th>CandidateId</th>
+      <th>QuestionId</th>
+      <th>Answer</th>
+      <th>File</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let ans of AnswerObs | async">
+      <th>{{ans.examId}}</th>
+      <th>{{ans.candidateId}}</th>
+      <th>{{ans.questionId}}</th>
+      <th>{{ans.answerText}}</th>
+      <th>
+        <video controls width="250">
+          <source [src]="Url + ans.answerFileLink">
+        </video>
+      </th>
+    </tr>
+  </tbody>
+</table>

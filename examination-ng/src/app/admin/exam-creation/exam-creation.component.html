@@ -1,0 +1,80 @@
+<div>List of exams here</div>
+<table role="grid">
+  <thead>
+    <tr>
+      <td>Id</td>
+      <td>Name</td>
+      <td>Description</td>
+      <td>Valid From</td>
+      <td>Valid Till</td>
+      <td>Duration</td>
+      <td>Question Sets</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let exam of (examListObs | async)">
+      <td>{{ exam.examId }}</td>
+      <td>{{ exam.name }}</td>
+      <td>{{ exam.description }}</td>
+      <td>{{ exam.validFrom | date}}</td>
+      <td>{{ exam.validTill | date}}</td>
+      <td>{{ exam.duration }} mins</td>
+      <td>
+        <button style="width: max-content">Open</button>
+        <!-- open modal for these -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Create a new exam here!!</h3>
+
+<!-- TO DOOOO -->
+<form [formGroup]="examCreationForm" (ngSubmit)="onSubmit()">
+  <div>
+    <input type="text" id="name" formControlName="name" placeholder="Exam Name">
+  </div>
+  <div>
+    <input type="text" id="description" formControlName="description" placeholder="Description">
+  </div>
+  <div class="grid">
+    <div>
+      <label for="validFrom">Valid From</label>
+      <input type="date" id="validFrom" formControlName="validFrom">
+    </div>
+    <div>
+      <label for="validTill">Valid Till</label>
+      <input type="date" id="validTill" formControlName="validTill">
+    </div>
+    <div>
+      <label for="duration">Duration</label>
+      <input type="number" min="10" max="60" id="duration" formControlName="duration">
+    </div>
+  </div>
+  <div>
+    <fieldset>
+      <!-- see form array from right side -->
+      <div *ngFor="let set of questionSets; let i = index">
+        <label for="">
+          <input type="checkbox" name="" id="" [value]="i" (change)="onCheckChange($event)">
+          {{set.questionSetId}} - {{set.name}} - {{set.description}}
+        </label>
+      </div>
+    </fieldset>
+  </div>
+
+
+
+
+
+<div class="grid">
+  <button class="contrast" (click)="reset()">Reset</button>
+  <button type="submit" [disabled]="!examCreationForm.valid">Submit</button>
+
+</div>
+
+
+</form>
+
+<!-- <pre>{{ state | json }}</pre>
+-->

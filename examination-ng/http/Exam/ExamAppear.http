@@ -1,0 +1,9 @@
+
+POST https://localhost:44334/api/Examination
+Content-Type: application/json
+
+{
+  "examId": 2,
+  "candidateId": 2,
+  "questionSetId": 3
+}

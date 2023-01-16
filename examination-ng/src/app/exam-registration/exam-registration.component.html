@@ -1,0 +1,80 @@
+<!-- <p>exam-registration works!</p>
+<pre>Create exam registration form here</pre> -->
+
+<div *ngIf="store.state$ | async as state">
+  <!-- <div *ngIf="store?.isCandidateRegistered">already Registered</div>
+  <div *ngIf="!(store?.isCandidateRegistered)">not Registered</div> -->
+
+  <h4>Exam details</h4>
+  <ul>
+    <li>Exam Id: {{ state.exam?.examId }}</li>
+    <li>Name: {{ state.exam?.name }}</li>
+    <li>Description: {{ state.exam?.description }}</li>
+    <li>Valid: {{ state.exam?.validFrom | date }} - {{ state.exam?.validTill | date }}</li>
+    <li>Duration: {{ state.exam?.duration }} mins</li>
+  </ul>
+
+
+  <div *ngIf="store.isCandidateRegistered">
+    <h5>You are registered for this exam.</h5>
+    <hr>
+    <h6>Question Set details</h6>
+    <ul>
+      <li>Set Id: {{ state.questionSet?.questionSetId }}</li>
+      <li>Name: {{ state.questionSet?.name}}</li>
+      <li>Description: {{ state.questionSet?.description }}</li>
+    </ul>
+    <h6>Time remaining: {{ minsRemaining }}</h6>
+    <button (click)="appearNow()">Appear now?</button>
+  </div>
+
+
+  <div *ngIf="!(store.isCandidateRegistered)">
+    <h4>Select a Question Set to register for this exam</h4>
+    <table role="grid">
+      <thead>
+        <tr>
+          <th>Question Set Id</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Register</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let set of state.exam?.questionSetsExams">
+          <th>{{ set.questionSet?.questionSetId }}</th>
+          <td>{{ set.questionSet?.name }}</td>
+          <td>{{ set.questionSet?.description }}</td>
+          <td>
+            <button (click)="register(set.questionSet.questionSetId)">Select</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<dialog [attr.open]="modelOpen">
+  <article>
+    <h3>Test media confirmation!!</h3>
+    <div>Check for video mode and uncheck for audio only.</div>
+    <div>
+      <label for="switch">
+        <input type="checkbox" id="switch" (change)="setVideoMode($event)" [checked]="store.state.isVideo">
+        Video text?
+      </label>
+    </div>
+    <div class="grid">
+      <button (click)="modalResponse('cancel')">Cancel</button>
+      <button (click)="modalResponse('confirm')">Confirm?</button>
+    </div>
+  </article>
+</dialog>
+
+<!-- exam expire modal -->
+<dialog [attr.open]="examExpired">
+  <article>
+    <h3>Exam is expired</h3>
+    Go to <a routerLink="/home">home.</a>
+  </article>
+</dialog>

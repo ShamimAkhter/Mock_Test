@@ -1,0 +1,8 @@
+
+POST https://localhost:44334/api/Candidate
+{
+  "name": "Frank Johnson",
+  "dateOfBirth": "1985-06-17",
+  "email": "frankjohnson@gmail.com",
+  "password": "1234"
+}

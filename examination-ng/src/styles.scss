@@ -1,0 +1,98 @@
+/* You can add global styles to this file, and also import other style files */
+@import "@picocss/pico/css/pico.min.css";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans&display=swap");
+
+/* ===== Basics ===== */
+* {
+  font-family: "Roboto", sans-serif;
+  // font-family: "IBM Plex Mono", monospace;
+  // font-family: "IBM Plex Sans", sans-serif;
+}
+
+.container :is(h1, h2, h3, h4, h5, h6) {
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+article {
+  margin: 0.4rem 0;
+  padding: 0.6rem;
+}
+details {
+  margin: 4px;
+}
+input {
+  height: 2.4rem !important;
+}
+button {
+  line-height: 2px;
+  height: 2.4rem;
+}
+
+nav {
+  margin-bottom: 10px;
+}
+
+/* ===== Color Customization ===== */
+/* Teal Light scheme (Default) */
+/* Can be forced with data-theme="light" */
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --primary: #4a7c59;
+  --primary-hover: #1a4b28;
+  --primary-focus: #8fc0a9;
+  --primary-inverse: #ffffff;
+}
+
+/* Teal Dark scheme (Auto) */
+/* Automatically enabled if user has Dark mode enabled */
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #4a7c59;
+    --primary-hover: #1a4b28;
+    --primary-focus: #8fc0a9;
+    --primary-inverse: #ffffff;
+  }
+}
+
+/* Teal Dark scheme (Forced) */
+/* Enabled if forced with data-theme="dark" */
+[data-theme="dark"] {
+  --primary: #4a7c59;
+  --primary-hover: #1a4b28;
+  --primary-focus: #8fc0a9;
+  --primary-inverse: #ffffff;
+}
+
+/* Teal (Common styles) */
+:root {
+  --form-element-active-border-color: var(--primary);
+  --form-element-focus-color: var(--primary-focus);
+  --switch-color: var(--primary-inverse);
+  --switch-checked-background-color: var(--primary);
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-focus);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  // background: var(--primary);
+  background: var(--primary-inverse);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-focus);
+  border-radius: 4px;
+}

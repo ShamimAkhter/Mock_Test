@@ -1,0 +1,115 @@
+<style>
+  .center {
+    text-align: center;
+    /* padding: 70px 0; */
+  }
+
+  video {
+    /* background-color: aqua; */
+    /* width: inherit; */
+    /* height: 360px; */
+  }
+
+  .number {
+    font-family: monospace;
+    font-size: 1.2rem;
+  }
+</style>
+
+
+
+<div *ngIf="store.state$ | async as state">
+
+
+  <article>
+    <div class="grid">
+      <div>
+        <div>Candidate: <span class="number">{{ state.candidate?.name }}</span></div>
+        <div>Id: <span class="number">{{ state.candidate?.candidateId }}</span></div>
+      </div>
+      <div>
+        <div>Exam: <span class="number">{{ state.exam?.name }}</span></div>
+        <div>Id: <span class="number">{{ state.exam?.examId }}</span></div>
+      </div>
+      <div>
+        <div>QuestionSet: <span class="number">{{ state.questionSet?.name }}</span></div>
+        <div>Id: <span class="number">{{ state.questionSet?.questionSetId }}</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article>
+    <div style="font-size: 1.2rem">
+      <span class="number">{{state.currentQuestion?.questionNumber}}:</span>
+      {{ state.currentQuestion?.questionText }}
+    </div>
+  </article>
+
+  <article>
+    <div class="grid">
+      <div>
+        Question No.
+        <span class="number">
+          {{state.currentQuestion?.questionNumber}}
+        </span> of
+        <span class="number">
+          {{ state.questionSet.questions?.length + state.currentCandidateExam.answers?.length }}
+        </span>
+      </div>
+      <div>
+        Questions skipped:
+        <span class="number">
+          {{ questionsSkipped }}
+        </span>
+      </div>
+      <div>
+        Time Left:
+        <span class="number">{{ minsRemaining }}</span>
+      </div>
+    </div>
+  </article>
+
+  <div class="grid">
+    <article *ngIf="state.isVideo" class="center">
+      <!-- <video src="" width="480"></video> -->
+      <video [hidden]="recording?.recorderPlayerState === 2" #recorder autoplay [width]="videoSize.width"
+        [height]="videoSize.height" style="border: 1px solid black; border-radius: 5px 15px"></video>
+      <video [hidden]="
+        recording?.recorderPlayerState === 0 ||
+        recording?.recorderPlayerState === 1
+      " #player controls [width]="videoSize.width" [height]="videoSize.height"
+        style="border: 1px solid black; border-radius: 15px 5px"></video>
+    </article>
+    <article class="center">
+      <!-- <textarea name="" id="" rows="5"></textarea> -->
+      <div [style.width.px]="state.isVideo? videoSize.width: videoSize.width * 2" [style.height.px]="videoSize.height"
+        style="border: 1px solid grey; border-radius: 8px; overflow: auto">
+        <span #final style="background-color: aqua"></span>
+        <span #interim style="background-color: aquamarine"></span>
+      </div>
+    </article>
+  </div>
+
+  <div class="grid">
+    <div>
+      <button *ngIf="!isRecording" class="secondary" (click)="startStopRecording()">Start recording</button>
+      <button *ngIf="isRecording" class="secondary" (click)="startStopRecording()">Stop recording</button>
+    </div>
+    <button class="secondary" (click)="resetAnswer()">Reset answer</button>
+    <button class="contrast" (click)="skipQuestion()">Skip question</button>
+    <!-- <button class="primary" (click)="submit()"
+      [disabled]="(state.currentAnswer === null) || (recording.recorderPlayerState !== 2)">
+      Submit
+    </button> -->
+    <button class="primary" (click)="submit()">Submit</button>
+  </div>
+</div>
+
+
+<!-- exam expire modal -->
+<dialog [attr.open]="examExpired">
+  <article>
+    <h3>Exam is expired</h3>
+    Go to <a routerLink="/home">home</a>
+  </article>
+</dialog>
