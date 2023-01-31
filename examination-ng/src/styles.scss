@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@picocss/pico/css/pico.min.css";
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
-// @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans&display=swap");
+
+
+// videojs-recorder
+@import '~video.js/dist/video-js.min.css';
+@import '~videojs-wavesurfer/dist/css/videojs.wavesurfer.min.css';
+@import '~videojs-record/dist/css/videojs.record.css';
+
+
 
 /* ===== Basics ===== */
 * {

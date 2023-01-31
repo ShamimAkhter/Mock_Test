@@ -1,5 +1,5 @@
 import { Candidate } from "../models/candidate";
-import { Answer } from "../models/answer";
+import { Answer, AnswerDto } from "../models/answer";
 import { QuestionSet } from "../models/questionSet";
 import { Exam } from "../models/exam";
 import { Question } from "../models/question";
@@ -16,6 +16,10 @@ export class CandidateExamState {
   currentCandidateExam: CandidateExam;
   currentQuestion: Question;
   currentAnswer: Answer;
+  currentAnswerDto: AnswerDto;
+
+  answerFile: Blob;
+  transcript: string;
 
   public constructor(init?: Partial<CandidateExamState>) {
     Object.assign(this, init);

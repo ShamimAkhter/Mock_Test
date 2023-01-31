@@ -23,7 +23,7 @@ export class StateStatusComponent implements OnInit {
 
   AnswerObs;
 
-  Url = `https://localhost:44334/`;
+  Url = environment.baseUrl;
 
   constructor(
     private router: Router,

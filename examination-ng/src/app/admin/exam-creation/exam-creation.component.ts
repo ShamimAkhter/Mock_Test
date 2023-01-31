@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -38,7 +39,13 @@ export class ExamCreationComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
+  today = new Date();
+  todayPlus10;
   ngOnInit(): void {
+    this.todayPlus10 = this.today;
+    this.todayPlus10.setDate(this.todayPlus10.getDate() + 10);
+
+
     // if (this.currentCandidate === null) this.router.navigate(['candidate/login']);
     // this.stateService.state$.subscribe(
     //   (res: CandidateExamState) => (this.state = res)
@@ -52,15 +59,21 @@ export class ExamCreationComponent implements OnInit {
         error: err => console.log(err)
       })
 
+    // let today = new Date();
+    // let todayPlus10 = today;
+    // todayPlus10.setDate(todayPlus10.getDate() + 10);
 
     this.examCreationForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
-      description: ['', [Validators.required, Validators.maxLength(255)]],
+      description: ['Some description!', [Validators.required, Validators.maxLength(255)]],
       validFrom: ['', [Validators.required]],
       validTill: ['', [Validators.required]],
-      duration: ['', [Validators.required]],
+      duration: [30, [Validators.required]],
       questionSetsExams: this.fb.array([], [Validators.required])
     });
+
+    // this.examCreationForm.controls['validFrom'].setValue(formatDate(this.today, 'mm/dd/yyyy', 'en'));
+    // this.examCreationForm.controls['validTill'].setValue(formatDate(this.today, 'mm/dd/yyyy', 'en'));
 
     // Open modal for exam creation and question submission forms //
     // For now do in the same page //
@@ -112,7 +125,7 @@ export class ExamCreationComponent implements OnInit {
         this.reset();
         this.getExams();
       },
-      error: err=>console.log(err)
+      error: err => console.log(err)
     });
 
   }

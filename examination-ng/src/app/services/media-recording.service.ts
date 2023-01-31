@@ -1,160 +1,160 @@
-import { ElementRef, Injectable } from '@angular/core';
+// import { ElementRef, Injectable } from '@angular/core';
 
-export enum RecordingState {
-  dormant = 0,
-  start = 1,
-  stop = 2,
-  // play = 3,
-}
+// export enum RecordingState {
+//   dormant = 0,
+//   start = 1,
+//   stop = 2,
+//   // play = 3,
+// }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class MediaRecordingService {
-  videoRecorderRef: ElementRef;
-  videoPlayerRef: ElementRef;
+// @Injectable({
+//   providedIn: 'root',
+// })
+// export class MediaRecordingService {
+//   videoRecorderRef: ElementRef;
+//   videoPlayerRef: ElementRef;
 
-  //   videoRecorderElement: HTMLVideoElement;
-  //   videoPlayerElement: HTMLVideoElement;
+//   //   videoRecorderElement: HTMLVideoElement;
+//   //   videoPlayerElement: HTMLVideoElement;
 
-  isRecording = false;
-  mediaStream: MediaStream;
-  mediaRecorder: MediaRecorder;
-  mediaRecorderState: string;
-  chunks: BlobPart[] = [];
-  downloadUrl: string = null;
+//   isRecording = false;
+//   mediaStream: MediaStream;
+//   mediaRecorder: MediaRecorder;
+//   mediaRecorderState: string;
+//   chunks: BlobPart[] = [];
+//   downloadUrl: string = null;
 
-  recorderPlayerState: RecordingState;
+//   recorderPlayerState: RecordingState;
 
-  init(recorder: ElementRef, player: ElementRef, isVideo: boolean) {
-    this.recorderPlayerState = RecordingState.dormant;
+//   init(recorder: ElementRef, player: ElementRef, isVideo: boolean) {
+//     this.recorderPlayerState = RecordingState.dormant;
 
-    this.videoRecorderRef = recorder;
-    this.videoPlayerRef = player;
+//     this.videoRecorderRef = recorder;
+//     this.videoPlayerRef = player;
 
-    let constraints = null;
-    if (isVideo) {
-      constraints = {
-        audio: true,
-        video: {
-          facingMode: 'user',
-          // width: 360,
-          // height: 360,
-        },
-      }
-    } else {
-      constraints = {
-        audio: true,
-        // video: false
-      }
-    }
+//     let constraints = null;
+//     if (isVideo) {
+//       constraints = {
+//         audio: true,
+//         video: {
+//           facingMode: 'user',
+//           // width: 360,
+//           // height: 360,
+//         },
+//       }
+//     } else {
+//       constraints = {
+//         audio: true,
+//         // video: false
+//       }
+//     }
 
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        // this.videoRecorderElement = this.videoRecorderRef.nativeElement;
-        // this.videoPlayerElement = this.videoPlayerRef.nativeElement;
+//     navigator.mediaDevices
+//       .getUserMedia(constraints)
+//       .then((stream) => {
+//         // this.videoRecorderElement = this.videoRecorderRef.nativeElement;
+//         // this.videoPlayerElement = this.videoPlayerRef.nativeElement;
 
-        this.mediaStream = stream;
-        // this.videoRecorderElement.srcObject = this.mediaStream;
-        this.videoRecorderRef.nativeElement.srcObject = this.mediaStream;
+//         this.mediaStream = stream;
+//         // this.videoRecorderElement.srcObject = this.mediaStream;
+//         this.videoRecorderRef.nativeElement.srcObject = this.mediaStream;
 
-        console.log('stream ok!');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+//         console.log('stream ok!');
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   }
 
-  startRecording(isVideo) {
-    this.recorderPlayerState = RecordingState.start;
+//   startRecording(isVideo) {
+//     this.recorderPlayerState = RecordingState.start;
 
-    console.log('start recording!!!!');
+//     console.log('start recording!!!!');
 
-    this.chunks = [];
+//     this.chunks = [];
 
-    let options;
-    if (isVideo) {
-      options = {
-        audioBitsPerSecond :  256000,
-	      videoBitsPerSecond : 2500000,
-	      bitsPerSecond:       2628000,
-        mimeType: 'video/webm'
-      };
-    }
-    else {
-      options = {
-        audioBitsPerSecond :  256000,
-	      videoBitsPerSecond : 2500000,
-	      bitsPerSecond:       2628000,
-        mimeType: 'audio/ogg'
-      };
-    }
+//     let options;
+//     if (isVideo) {
+//       options = {
+//         audioBitsPerSecond :  256000,
+// 	      videoBitsPerSecond : 2500000,
+// 	      bitsPerSecond:       2628000,
+//         mimeType: 'video/webm'
+//       };
+//     }
+//     else {
+//       options = {
+//         audioBitsPerSecond :  256000,
+// 	      videoBitsPerSecond : 2500000,
+// 	      bitsPerSecond:       2628000,
+//         mimeType: 'audio/ogg'
+//       };
+//     }
 
-    console.log(options);
-
-
-    this.mediaRecorder = new MediaRecorder(this.mediaStream, options);
-
-    // if(isVideo)
-    //   this.mediaRecorder = new MediaRecorder(this.mediaStream, options);
-    // else
-    //   this.mediaRecorder = new MediaRecorder(this.mediaStream);
+//     console.log(options);
 
 
-    this.mediaRecorder.start();
+//     this.mediaRecorder = new MediaRecorder(this.mediaStream, options);
 
-    this.mediaRecorderState = this.mediaRecorder.state;
-    this.isRecording = !this.isRecording;
+//     // if(isVideo)
+//     //   this.mediaRecorder = new MediaRecorder(this.mediaStream, options);
+//     // else
+//     //   this.mediaRecorder = new MediaRecorder(this.mediaStream);
 
-    this.onDataAvailableEvent();
-    this.onRecordingStopEvent();
-  }
 
-  stopRecording() {
-    this.recorderPlayerState = RecordingState.stop;
+//     this.mediaRecorder.start();
 
-    this.mediaRecorder.stop();
-    this.mediaRecorderState = this.mediaRecorder.state;
-    this.isRecording = !this.isRecording;
-  }
+//     this.mediaRecorderState = this.mediaRecorder.state;
+//     this.isRecording = !this.isRecording;
 
-  playRecording() {
-    if (!this.chunks || !this.chunks.length) {
-      console.log(this.chunks);
-      console.log('Cannot play!!!!!');
-      return;
-    }
-    // this.recordingState = RecordingState.play;
-    this.videoPlayerRef.nativeElement.play();
-    console.log(this.chunks.length);
-  }
+//     this.onDataAvailableEvent();
+//     this.onRecordingStopEvent();
+//   }
 
-  // Events
-  onDataAvailableEvent() {
-    console.log('Data available');
+//   stopRecording() {
+//     this.recorderPlayerState = RecordingState.stop;
 
-    try {
-      this.mediaRecorder.ondataavailable = (event: BlobEvent) => {
-        if (event.data && event.data.size > 0) {
-          this.chunks.push(event.data);
-          console.log('blob Size', event.data.size);
-        }
-      };
-    } catch (err) {
-      console.log(err);
-    }
-  }
+//     this.mediaRecorder.stop();
+//     this.mediaRecorderState = this.mediaRecorder.state;
+//     this.isRecording = !this.isRecording;
+//   }
 
-  onRecordingStopEvent() {
-    try {
-      this.mediaRecorder.onstop = (event: Event) => {
-        const videoBlob = new Blob(this.chunks, { type: 'video/webm' });
-        this.downloadUrl = window.URL.createObjectURL(videoBlob);
-        this.videoPlayerRef.nativeElement.src = this.downloadUrl;
-      };
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
+//   playRecording() {
+//     if (!this.chunks || !this.chunks.length) {
+//       console.log(this.chunks);
+//       console.log('Cannot play!!!!!');
+//       return;
+//     }
+//     // this.recordingState = RecordingState.play;
+//     this.videoPlayerRef.nativeElement.play();
+//     console.log(this.chunks.length);
+//   }
+
+//   // Events
+//   onDataAvailableEvent() {
+//     console.log('Data available');
+
+//     try {
+//       this.mediaRecorder.ondataavailable = (event: BlobEvent) => {
+//         if (event.data && event.data.size > 0) {
+//           this.chunks.push(event.data);
+//           console.log('blob Size', event.data.size);
+//         }
+//       };
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   }
+
+//   onRecordingStopEvent() {
+//     try {
+//       this.mediaRecorder.onstop = (event: Event) => {
+//         const videoBlob = new Blob(this.chunks, { type: 'video/webm' });
+//         this.downloadUrl = window.URL.createObjectURL(videoBlob);
+//         this.videoPlayerRef.nativeElement.src = this.downloadUrl;
+//       };
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   }
+// }

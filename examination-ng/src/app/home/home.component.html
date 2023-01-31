@@ -23,6 +23,7 @@
       <th>Valid From</th>
       <th>Valid Till</th>
       <th>Duration (mins)</th>
+      <th>Status</th>
       <!-- <th>Duration (mins)</th> -->
     </tr>
   </thead>
@@ -31,8 +32,9 @@
       <!-- <td>{{ exam.examId }}</td> -->
       <th>{{ exam.examId }}</th>
       <td>
-        <button style="width: max-content"
-        class="outline" [disabled]="!(store.state$ | async).candidate" (click)="openModal(exam)">
+        <button style="width: max-content" class="outline"
+          [disabled]="(!(store.state$ | async).candidate) || (just(exam.validFrom, exam.validTill)==='Expired')"
+          (click)="openModal(exam)">
           {{ exam.name }}
         </button>
       </td>
@@ -40,6 +42,7 @@
       <td>{{ exam.validFrom | date }}</td>
       <td>{{ exam.validTill | date }}</td>
       <td>{{ exam.duration }} mins</td>
+      <td>{{ just(exam.validFrom, exam.validTill) }}</td>
       <!-- <td>{{ (Date.parse(exam.validTill)) }} mins</td> -->
     </tr>
   </tbody>

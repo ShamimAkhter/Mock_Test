@@ -2,12 +2,8 @@
   .center {
     text-align: center;
     /* padding: 70px 0; */
-  }
-
-  video {
-    /* background-color: aqua; */
-    /* width: inherit; */
-    /* height: 360px; */
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .number {
@@ -17,13 +13,11 @@
 </style>
 
 
-
 <div *ngIf="store.state$ | async as state">
-
 
   <article>
     <div class="grid">
-      <div>
+      <!-- <div>
         <div>Candidate: <span class="number">{{ state.candidate?.name }}</span></div>
         <div>Id: <span class="number">{{ state.candidate?.candidateId }}</span></div>
       </div>
@@ -34,6 +28,16 @@
       <div>
         <div>QuestionSet: <span class="number">{{ state.questionSet?.name }}</span></div>
         <div>Id: <span class="number">{{ state.questionSet?.questionSetId }}</span></div>
+      </div> -->
+
+      <div>
+        <div><span class="number">{{ state.candidate?.candidateId }} - {{ state.candidate?.name }}</span></div>
+      </div>
+      <div>
+        <div><span class="number">{{ state.exam?.examId }} - {{ state.exam?.name }}</span></div>
+      </div>
+      <div>
+        <div><span class="number">{{ state.questionSet?.questionSetId }} - {{ state.questionSet?.name }}</span></div>
       </div>
     </div>
   </article>
@@ -69,43 +73,53 @@
     </div>
   </article>
 
+  <!-- VIDEO AND SPEECH TO TEXT --- VIDEO AND SPEECH TO TEXT --- VIDEO AND SPEECH TO TEXT -->
+  <!-- VIDEO AND SPEECH TO TEXT --- VIDEO AND SPEECH TO TEXT --- VIDEO AND SPEECH TO TEXT -->
   <div class="grid">
+    <!-- VIDEO / AUDIO --- VIDEO / AUDIO --- VIDEO / AUDIO --- VIDEO / AUDIO --- VIDEO / AUDIO -->
     <article *ngIf="state.isVideo" class="center">
-      <!-- <video src="" width="480"></video> -->
-      <video [hidden]="recording?.recorderPlayerState === 2" #recorder autoplay [width]="videoSize.width"
-        [height]="videoSize.height" style="border: 1px solid black; border-radius: 5px 15px"></video>
-      <video [hidden]="
-        recording?.recorderPlayerState === 0 ||
-        recording?.recorderPlayerState === 1
-      " #player controls [width]="videoSize.width" [height]="videoSize.height"
-        style="border: 1px solid black; border-radius: 15px 5px"></video>
+      <app-videojs-recorder-audio-video></app-videojs-recorder-audio-video>
     </article>
+    <article *ngIf="!state.isVideo" class="center">
+      <app-videojs-recorder-audio-only></app-videojs-recorder-audio-only>
+    </article>
+
+    <!-- SPEECH TO TEXT --- SPEECH TO TEXT --- SPEECH TO TEXT --- SPEECH TO TEXT --- SPEECH TO TEXT -->
     <article class="center">
-      <!-- <textarea name="" id="" rows="5"></textarea> -->
-      <div [style.width.px]="state.isVideo? videoSize.width: videoSize.width * 2" [style.height.px]="videoSize.height"
-        style="border: 1px solid grey; border-radius: 8px; overflow: auto">
-        <span #final style="background-color: aqua"></span>
-        <span #interim style="background-color: aquamarine"></span>
-      </div>
+      <app-voice-recognition></app-voice-recognition>
     </article>
   </div>
 
-  <div class="grid">
-    <div>
-      <button *ngIf="!isRecording" class="secondary" (click)="startStopRecording()">Start recording</button>
-      <button *ngIf="isRecording" class="secondary" (click)="startStopRecording()">Stop recording</button>
-    </div>
-    <button class="secondary" (click)="resetAnswer()">Reset answer</button>
+
+  <!-- BUTTONS --- BUTTONS --- BUTTONS --- BUTTONS --- BUTTONS --- BUTTONS -->
+  <!-- BUTTONS --- BUTTONS --- BUTTONS --- BUTTONS --- BUTTONS --- BUTTONS -->
+  <div class="grid" *ngIf="storeButton.state$ | async as stateButton">
+    <!-- <button *ngIf="!isRecording" class="secondary" (click)="startStopRecording()">Start recording</button> -->
+    <button [disabled]="stateButton.recording === 'start'" class="secondary"
+      [attr.aria-busy]="stateButton.recording === 'start'"
+      (click)="storeButton.setRecordingState('start')">{{stateButton.recording === 'start'?'Recording':'Start'}}</button>
+    <!-- <button class="secondary" (click)="storeButton.setRecordingState('pause')">Pause</button>
+      <button class="secondary" (click)="storeButton.setRecordingState('resume')">Resume</button> -->
+    <button [disabled]="stateButton.recording === 'stop'" class="secondary"
+      (click)="stopRecording();storeButton.setRecordingState('stop')">Stop</button>
+    <!-- <button class="secondary" (click)="resetAnswer()">Reset answer</button> -->
     <button class="contrast" (click)="skipQuestion()">Skip question</button>
     <!-- <button class="primary" (click)="submit()"
       [disabled]="(state.currentAnswer === null) || (recording.recorderPlayerState !== 2)">
       Submit
     </button> -->
-    <button class="primary" (click)="submit()">Submit</button>
+    <button [disabled]="!(state.transcript!==null && state.answerFile!==null)" class="primary"
+      (click)="submit()">Submit</button>
   </div>
+  <!-- <div>
+    <span>Recording state: {{ state.recording }}</span>
+  </div> -->
 </div>
 
 
+<!-- MODAL --- MODAL ---MODAL ---MODAL ---MODAL ---MODAL ---MODAL -->
+<!-- MODAL --- MODAL ---MODAL ---MODAL ---MODAL ---MODAL ---MODAL -->
+<!-- MODAL --- MODAL ---MODAL ---MODAL ---MODAL ---MODAL ---MODAL -->
 <!-- exam expire modal -->
 <dialog [attr.open]="examExpired">
   <article>

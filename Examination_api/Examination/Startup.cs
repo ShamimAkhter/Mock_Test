@@ -64,7 +64,7 @@ namespace Examination
             {
                 endpoints.MapControllers();
                 endpoints.MapGet("/", async context =>
-                    await context.Response.WriteAsync("Working!!")
+                    context.Response.Redirect("index.html")
                 );
             });
         }

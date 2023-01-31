@@ -75,4 +75,20 @@ export class HomeComponent implements OnInit {
       this.store.setExam(null);
     }
   }
+
+  just(validFrom:string, validTill:string): string {
+    let from = new Date(validFrom);
+    let till = new Date(validTill);
+    let now = new Date(Date.now());
+
+    if (now.getTime() < from.getTime()) return 'Not started';
+    else if ((from.getTime() <= now.getTime()) && (now.getTime() <= till.getTime())) return 'Go to Exam';
+    else if (now.getTime() > till.getTime()) return 'Expired';
+    else return 'Unknown'
+
+    // // if (now.getDate() > till.getDate()) return 'Expired';
+    // if (now.getTime() > till.getTime()) return 'Expired';
+    // else return 'Unknown'
+  }
+
 }

@@ -6,15 +6,16 @@ import { ApiPaths } from '../enums/api-paths';
 import { Answer, AnswerDto } from '../models/answer';
 import { CandidateExam } from '../models/candidateExam';
 import { QuestionSet } from '../models/questionSet';
+import { ButtonEventsStore } from '../services/button-events-store';
 import { CandidateExamStore } from '../services/candidate-exam-store';
-import { MediaRecordingService, RecordingState } from '../services/media-recording.service';
-import { VoiceRecognitionService } from '../services/voice-recognition.service';
+// import { MediaRecordingService, RecordingState } from '../services/media-recording.service';
+// import { VoiceRecognitionService } from '../services/voice-recognition.service';
 
 @Component({
   selector: 'app-exam-taking',
   templateUrl: './exam-taking.component.html',
 })
-export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
+export class ExamTakingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // modelOpen = false;
 
@@ -31,23 +32,13 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
 
   isRecording = false;
 
-  @ViewChild('recorder') videoRecorderRef: ElementRef;
-  @ViewChild('player') videoPlayerRef: ElementRef;
-
-  @ViewChild('final') final: ElementRef;
-  @ViewChild('interim') interim: ElementRef;
-
-  videoSize = {
-    width: 480,
-    height: 300
-  }
-
   constructor(
     private router: Router,
     public store: CandidateExamStore,
+    public storeButton: ButtonEventsStore,
     private http: HttpClient,
-    private recognition: VoiceRecognitionService,
-    public recording: MediaRecordingService
+    // private recognition: VoiceRecognitionService,
+    // public recording: MediaRecordingService
   ) { }
 
 
@@ -70,13 +61,12 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
       return;
     }
 
-
-
     // set timer and validate expiration status
     this.examTimerAndExamExpiration();
-    if (this.examExpired)
+    if (this.examExpired) {
+      alert('Exam is expired.');
       return;
-
+    }
 
     // remove already answered questions from questionSet.questions
     // take help from currentCandidateExam
@@ -113,7 +103,7 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
 
 
     // initialize recognition service
-    this.recognition.init(this.final, this.interim);
+    // this.recognition.init(this.final, this.interim);
 
   }
 
@@ -122,42 +112,47 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
     if (this.examExpired)
       return;
 
-    this.recognition.init(this.final, this.interim);
-
-    if (this.store.state.isVideo === true)
-      this.recording.init(this.videoRecorderRef, this.videoPlayerRef, this.store.state.isVideo);
+    // this.recognition.init(this.final, this.interim);
 
 
   }
 
-  startStopRecording() {
+  stopRecording() {
 
-    this.isRecording = !this.isRecording;
+    // this.isRecording = !this.isRecording;
 
-    if (this.isRecording === true) {
-      this.recognition.startRecognition();
-      this.recording.startRecording(this.store.state.isVideo);
-    } else {
-      this.recognition.stopRecognition();
-      this.recording.stopRecording();
-      let answer = new Answer({
-        examId: this.store.state.exam.examId,
-        candidateId: this.store.state.candidate.candidateId,
-        questionId: this.store.state.currentQuestion.questionId,
-        answerText: this.recognition.final_transcript,
-      });
-      this.store.setCurrentAnswer(answer);
-    }
+    // if (this.isRecording === true) {
+    // this.recognition.startRecognition();
+    // this.recording.startRecording(this.store.state.isVideo);
+    // } else {
+    // this.recognition.stopRecognition();
+    // this.recording.stopRecording();
+    let answer = new Answer({
+      examId: this.store.state.exam.examId,
+      candidateId: this.store.state.candidate.candidateId,
+      questionId: this.store.state.currentQuestion.questionId,
+      // answerText: this.recognition.final_transcript,
+    });
+    this.store.setCurrentAnswer(answer);
+
+    console.log(this.store.state.currentAnswerDto);
+
+    // }
   }
 
   resetAnswer() {
     this.store.setCurrentAnswer(null);
+    this.store.setCurrentAnswerDto(null);
 
-    this.recognition.final_transcript = '';
-    this.final.nativeElement.innerHTML = '';
-    this.interim.nativeElement.innerHTML = '';
+    this.store.setTranscript(null);
+    this.store.setAnswerFile(null);
 
-    this.recording.chunks = [];
+    // this.recognition.final_transcript = '';
+    // this.final.nativeElement.innerHTML = '';
+    // this.interim.nativeElement.innerHTML = '';
+
+    // this.recording.chunks = [];
+
   }
 
   skipQuestion() {
@@ -173,14 +168,27 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
   submit() {
     // submit and on success bring next question and call reset
 
-    this.recording.recorderPlayerState = RecordingState.dormant;
+    // this.recording.recorderPlayerState = RecordingState.dormant;
 
-    if (this.recording.chunks.length === 0) {
-      console.log('No BlobPart to submit!');
+    // if (this.recording.chunks.length === 0) {
+    //   console.log('No BlobPart to submit!');
+    //   return;
+    // }
+
+
+
+
+    // if (this.recognition.final_transcript.length === 0) {
+    //   console.log('No Text to submit!');
+    //   return;
+    // }
+    if (this.store.state.transcript === null) {
+      console.log('No Text to submit!');
       return;
     }
-    if (this.recognition.final_transcript.length === 0) {
-      console.log('No Text to submit!');
+
+    if (this.store.state.answerFile === null) {
+      console.log('No answerFile to submit!');
       return;
     }
 
@@ -189,15 +197,16 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
       return;
     }
 
+
     let answerDto = new AnswerDto({
       examId: this.store.state.currentAnswer.examId,
       candidateId: this.store.state.currentAnswer.candidateId,
       questionId: this.store.state.currentAnswer.questionId,
-      answerText: this.store.state.currentAnswer.answerText,
+      answerText: this.store.state.transcript,
+      answerFile: this.store.state.answerFile
     });
-    answerDto.answerFile = new Blob(this.recording.chunks, { type: 'video/webm' });
 
-    // console.log(answerDto);
+    console.log(answerDto);
 
     const formData = new FormData();
     for (let key in answerDto) formData.append(key, answerDto[key]);
@@ -215,14 +224,16 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
           this.questionCount++;
         },
         error: err => console.log(err)
-      })
-
+      });
   }
+
+
+
   examTimerAndExamExpiration() {
     // Timer logic
     const examEndTime = (new Date(Date.parse(this.store.state.currentCandidateExam.endTime))).getTime();
 
-    this.interval =  setInterval(() => {
+    this.interval = setInterval(() => {
 
       const timeNow = (new Date(Date.now())).getTime();
 
@@ -245,14 +256,6 @@ export class ExamTakingComponent implements OnInit, AfterViewInit , OnDestroy{
         this.examExpired = true;
     }, 1000)
   }
-
-
-
-
-
-
-
-
 
   ngOnDestroy(): void {
     clearTimeout(this.interval);

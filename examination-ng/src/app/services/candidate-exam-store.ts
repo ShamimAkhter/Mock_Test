@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Answer } from '../models/answer';
+import { Answer, AnswerDto } from '../models/answer';
 import { Candidate } from '../models/candidate';
 import { CandidateExam } from '../models/candidateExam';
 import { Exam } from '../models/exam';
@@ -19,7 +19,10 @@ export class CandidateExamStore extends Store<CandidateExamState> {
         isVideo: false,
         currentQuestion: null,
         currentAnswer: null,
-        currentCandidateExam: null
+        currentCandidateExam: null,
+
+        transcript: null,
+        answerFile:null
       })
     );
   }
@@ -74,6 +77,28 @@ export class CandidateExamStore extends Store<CandidateExamState> {
       ...this.state,
       // answers: [...this.state.answers, answer],
       currentAnswer: answer,
+    });
+  }
+
+  setCurrentAnswerDto(answerDto: AnswerDto) {
+    this.setState({
+      ...this.state,
+      // answers: [...this.state.answers, answer],
+      currentAnswerDto: answerDto,
+    });
+  }
+
+  setTranscript(transcript: string) {
+    this.setState({
+      ...this.state,
+      transcript: transcript
+    });
+  }
+
+  setAnswerFile(answerFile: Blob) {
+    this.setState({
+      ...this.state,
+      answerFile: answerFile
     });
   }
 

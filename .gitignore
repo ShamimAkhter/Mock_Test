@@ -536,3 +536,5 @@ Thumbs.db
 *.angular/
 
 *wwwroot/
+
+*dist/

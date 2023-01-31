@@ -9,7 +9,8 @@ const routes: Routes = [
   {
     path: 'exam-create', component: ExamCreationComponent
   },
-  { path: 'question-submit', component: QuestionSubmissionComponent }
+  { path: 'question-submit', component: QuestionSubmissionComponent },
+  { path: '**', component: AdminComponent }
 ];
 
 @NgModule({

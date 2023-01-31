@@ -12,8 +12,11 @@ import { ExamTakingComponent } from './exam-taking/exam-taking.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CandidateComponent } from './candidate/candidate.component';
 import { ExamRegistrationComponent } from './exam-registration/exam-registration.component';
-import { VoiceRecognitionService } from './services/voice-recognition.service';
-import { MediaRecordingService } from './services/media-recording.service';
+// import { VoiceRecognitionService } from './services/voice-recognition.service';
+// import { MediaRecordingService } from './services/media-recording.service';
+import { VideojsRecorderAudioVideoComponent } from './videojs-recorder-audio-video/videojs-recorder-audio-video.component';
+import { VideojsRecorderAudioOnlyComponent } from './videojs-recorder-audio-only/videojs-recorder-audio-only.component';
+import { VoiceRecognitionComponent } from './voice-recognition/voice-recognition.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { MediaRecordingService } from './services/media-recording.service';
     CandidateRegisterComponent,
     ExamTakingComponent,
     CandidateComponent,
-    ExamRegistrationComponent
+    ExamRegistrationComponent,
+    VideojsRecorderAudioVideoComponent,
+    VideojsRecorderAudioOnlyComponent,
+    VoiceRecognitionComponent
   ],
   imports: [
     BrowserModule,
@@ -34,8 +40,9 @@ import { MediaRecordingService } from './services/media-recording.service';
   ],
   providers: [
     CandidateExamStore,
-    VoiceRecognitionService,
-    MediaRecordingService],
+    // VoiceRecognitionService,
+    // MediaRecordingService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

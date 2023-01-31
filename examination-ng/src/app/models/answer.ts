@@ -19,7 +19,7 @@ export class AnswerDto {
 
   answerFile: Blob;
 
-  public constructor(init?: Partial<Answer>) {
+  public constructor(init?: Partial<AnswerDto>) {
     Object.assign(this, init);
   }
 }
