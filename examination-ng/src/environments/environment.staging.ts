@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://questpondinterviews.com'
+  baseUrl: 'https://mocktest.com'
 };
